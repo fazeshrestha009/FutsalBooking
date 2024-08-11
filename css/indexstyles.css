@@ -253,3 +253,23 @@
     margin-right: 0;
   }
 }
+#futsal-list-section {
+  margin-top: 20px;
+  color: rgb(31, 224, 31);
+}
+
+#futsal-list {
+  list-style: none;
+  padding: 0;
+}
+
+#futsal-list li {
+  background-color: #171a18;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  font-size: 16px;
+}
+#booking-sec{
+  margin-top:20px;
+}

@@ -4,16 +4,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futsal Reservation System</title>
-  <link rel="stylesheet" type="text/css" href="css/allstyles.css">
-  <link rel="stylesheet" type="text/css" href="css/navstyles.css">
-  <link rel="stylesheet" type="text/css" href="css/indexstyles.css">
-  <link rel="stylesheet" type="text/css" href="css/footerstyles.css">
+  <link rel="stylesheet" href="css/allstyles.css">
+  <link rel="stylesheet" href="css/navstyles.css">
+  <link rel="stylesheet" href="css/indexstyles.css">
+  <link rel="stylesheet" href="css/footerstyles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
+    #map-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
     #map {
-      height: 400px; /* Adjust height as needed */
-      width: 100%; /* Full width of the container */
-      margin-top: 20px; /* Space above the map */
+      height: 400px; 
+      width: 50%; /* Adjusted width */
+      margin-top: 20px;
+      margin-left:40px;
+    }
+   
+    #futsal-list-section {
+      width: 38%; /* Adjusted width */
+      margin-top: 20px;
+      margin-right:40px;
+    }
+
+    #futsal-list-section ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    #futsal-list-section li {
+      background-color: #f0f0f0;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
     }
   </style>
 </head>
@@ -32,13 +57,14 @@
           } else {
             echo '<li class="login"><a href="php/login.php">Login</a></li>';
             echo '<li class="login"><a href="php/registration.php">Register</a></li>';
-          } 
+          }
         ?>
       </ul>
     </nav>
   </header>
-    <!-- Welcome Section -->
-    <section class="hero-section">
+
+  <!-- Welcome Section -->
+  <section class="hero-section">
     <div class="container01">
       <div class="hero-content">
         <h1>Welcome to FutsalTicket</h1>
@@ -47,16 +73,29 @@
     </div>
   </section>
 
-  <!-- New Map Section -->
+  <!-- Map and Nearby Futsal Venues Section -->
   <section id="map-section">
-    <div class="container">
-      <h2 style="color: green; text-align: center;">Find a Futsal Venue Near You</h2>
-      <div id="map"></div>
+    <!-- Map Container -->
+    <div id="map"></div>
+    
+    <!-- Nearby Futsal Venues List -->
+    <div id="futsal-list-section">
+      <h2>Nearby Futsal Venues</h2>
+      <ul id="futsal-list"></ul>
       <button id="recenterButton" style="margin-top: 10px;">Recenter Map</button>
     </div>
   </section>
 
-
+  <section id="booking-sec">
+    <div class="booking-section">
+      <div class="booking-context">
+        <h2>Make your reservation now</h2>
+      </div>
+      <div class="booking-btn">
+        <a href="php/booking.php" class="book-now-btn">Book Now</a>
+      </div>
+    </div>
+  </section>
 
   <section class="services-section">
     <div class="container"> 
@@ -89,19 +128,7 @@
               <p>An area where cars or other vehicles may be left temporarily; a car park.</p>
             </div>
           </div>
-          <!-- Add more service sections as needed -->
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <div class="booking-section">
-      <div class="booking-context">
-        <h2>Make your reservation now</h2>
-      </div>
-      <div class="booking-btn">
-        <a href="php/booking.php" class="book-now-btn">Book Now</a>
       </div>
     </div>
   </section>
@@ -113,7 +140,7 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Initialize the map
-    var map = L.map('map').setView([0, 0], 2); // Set initial coordinates and zoom level
+    var map = L.map('map').setView([27.7172, 85.3240], 13); // Kathmandu as default center
 
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -140,10 +167,18 @@
     function showAllFutsalVenues() {
       futsalVenues.forEach(function(venue) {
         var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
+        venue.distance = distance; // Store the calculated distance in the venue object
         L.marker([venue.lat, venue.lon]).addTo(map)
-          .bindPopup(venue.name + '<br>Distance: ' + distance.toFixed(2) + ' km')
-          .openPopup();
+          .bindPopup(venue.name + '<br>Distance: ' + distance.toFixed(2) + ' km');
       });
+
+      // Sort the futsal venues by distance
+      futsalVenues.sort(function(a, b) {
+        return a.distance - b.distance;
+      });
+
+      // Display the sorted futsal venues list
+      displayFutsalList();
     }
 
     // Get user's location
@@ -156,7 +191,7 @@
         userMarker = L.marker([userLat, userLon], {
           icon: L.divIcon({
             className: 'user-icon',
-            html: '<div style="background-color:red; width: 10px; height: 10px; border-radius: 50%;"></div>'
+            html: '<div style="background-color:red; width: 15px; height: 15px; border-radius: 50%;"></div>'
           })
         }).addTo(map)
           .bindPopup('You are here!')
@@ -164,6 +199,8 @@
 
         // Show all futsal venues
         showAllFutsalVenues();
+      }, function(error) {
+        alert("Geolocation failed: " + error.message);
       });
     } else {
       alert("Geolocation is not supported by this browser.");
@@ -187,8 +224,19 @@
       { name: "Samakhusi Futsal", lat: 27.734598651054025, lon: 85.32048339314343 },
       { name: "Kumari Futsal", lat: 27.7139447636494, lon: 85.30803159421912 },
       { name: "Manang Futsal", lat: 27.715465815601913, lon: 85.2827675079748 },
-      // Add more venues here
     ];
+
+    // Function to display the list of futsal venues
+    function displayFutsalList() {
+      var listContainer = document.getElementById('futsal-list');
+      listContainer.innerHTML = ''; // Clear any existing content
+
+      futsalVenues.forEach(function(venue) {
+        var listItem = document.createElement('li');
+        listItem.innerHTML = `${venue.name} - ${venue.distance.toFixed(2)} km`;
+        listContainer.appendChild(listItem);
+      });
+    }
   </script>
 </body>
 </html>
