@@ -252,6 +252,7 @@
   .booking-btn {
     margin-right: 0;
   }
+  
 }
 #futsal-list-section {
   margin-top: 20px;
@@ -272,4 +273,8 @@
 }
 #booking-sec{
   margin-top:20px;
+}
+=======
+.near{
+  color: rgb(2, 178, 75);
 }

@@ -240,3 +240,59 @@
   </script>
 </body>
 </html>
+=======
+  
+  <!-- Add map section -->
+<section class="map-section">
+  <div class="map-container">
+    <h2 class="near">Nearby Futsal Fields</h2>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the map
+        var map = L.map('map').setView([0, 0], 15); // Default center
+
+        // Set the map tiles using OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Get user's current l ocation
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // Set the map center to the user's location
+            map.setView([lat, lng], 15);
+
+            // Add a marker for the user's location
+            var userMarker = L.marker([lat, lng]).addTo(map)
+              .bindPopup("You are here").openPopup();
+
+            // Fetch and display nearby futsal fields (example function call)
+            fetchFutsalLocations(lat, lng, map);
+          });
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      });
+
+      // Function to fetch and display nearby futsal fields
+      function fetchFutsalLocations(lat, lng, map) {
+        fetch('get_futsal_locations.php?lat=' + lat + '&lng=' + lng)
+          .then(response => response.json())
+          .then(data => {
+            data.forEach(location => {
+              var marker = L.marker([location.lat, location.lng]).addTo(map);
+              marker.bindPopup(`<b>${location.name}</b><br>${location.address}`);
+            });
+          });
+      }
+    </script>
+
+    <!-- Include Leaflet.js in the HTML -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  </div>
+</section>
