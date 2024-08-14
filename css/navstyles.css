@@ -1,60 +1,70 @@
+/* Basic Reset */
 body, h1, h2, h3, p, ul, li {
   margin: 0;
   padding: 0;
 }
 
+/* Global Body Styling */
 body {
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-}
-/* navigation */
-body, h1, h2, h3, p, ul, li {
-  margin: 0;
-  padding: 0;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  background-color: #121212; /* Dark background for the entire page */
+  color: #f0f0f0; /* Light text color for better contrast */
 }
 
-body {
-  font-family: Arial, sans-serif;
-  line-height: 1.5;
-}
-/* navigation */
+/* Header Styling */
 header {
-  color: rgb(19, 16, 16);
-  border-bottom: 2px solid #333;
+  background-color: #1a1a1a; /* Slightly lighter dark background */
+  color: #00ff00; /* Bright green text for header */
+  border-bottom: 2px solid #333; /* Subtle border for separation */
+  padding: 10px 20px; /* Padding for better spacing */
+}
 
-  }
-  nav{
-    color:  rgb(19, 16, 16);
-  }
-  nav ul {
-    list-style: none;
-    /* display: flex; */
-    justify-content: center;
-    padding: 10px;
-  }
-  nav ul li {
-    display: inline-block;
-  }
+/* Navigation Styling */
+nav {
+  display: flex;
+  justify-content: center; /* Center align navigation items */
+  align-items: center;
+  padding: 10px 0;
+}
 
-  nav ul li:not(.login) {
-    margin-right: 10px;
-  }
+nav ul {
+  list-style: none;
+  display: flex; /* Use flexbox for alignment */
+}
 
-  nav ul li a {
-    color: rgb(194, 194, 194);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 10px 15px;
-  }
+nav ul li {
+  margin: 0 10px; /* Spacing between menu items */
+}
 
-  nav ul li a:hover {
-    background-color: #299900;
-    border-radius: 10px;
-  }
-  
-  nav ul li a:active {
-    background-color: #3EC70B;
-  }
-  .login {
-    float: right;
-  }
+nav ul li a {
+  color: #f0f0f0; /* Light text color for links */
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 20px; /* Padding for clickable area */
+  border-radius: 8px; /* Rounded corners for buttons */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition effects */
+}
+
+nav ul li a:hover {
+  background-color: #00ff00; /* Bright green background on hover */
+  color: #1a1a1a; /* Dark text color on hover */
+}
+
+nav ul li a:active {
+  background-color: #33cc33; /* Slightly darker green when clicked */
+}
+
+/* Login Button Styling */
+nav ul li.login a {
+  float: right;
+  background-color: #e74c3c; /* Red background for login button */
+  color: #fff; /* White text color */
+  padding: 10px 20px;
+  border-radius: 8px; /* Rounded corners */
+  transition: background-color 0.3s;
+}
+
+nav ul li.login a:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
