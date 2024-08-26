@@ -28,7 +28,7 @@
         <section class="main-content">
             <!-- Dashboard Overview -->
             <div class="dashboard-overview">
-                <h2>Dashboard Overview</h2>
+                <h2 >Dashboard Overview</h2>
                 <!-- Display relevant statistics and metrics -->
                 <p><b>Total Bookings: </b>
                     <?php

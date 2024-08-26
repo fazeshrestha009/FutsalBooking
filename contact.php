@@ -39,9 +39,9 @@
     <div class="contact-info">
       <table>
         <tr><th colspan="2">Our Contact Information:</th></tr>
-        <tr><td>Email </td><td>futsalticket22@gmail.com</td></tr>
-        <tr><td>Phone </td><td>014956405, 014956406</td></tr>
-        <tr><td>Address &nbsp; </td><td>Nursery Chowk, Khusibu, Kathmandu</td></tr>
+        <tr><td>Email </td><td>futsalbooking024@gmail.com</td></tr>
+        <tr><td>Phone </td><td> 014956405, 014956406</td></tr>
+        
       </table>
     </div>
     <br/>

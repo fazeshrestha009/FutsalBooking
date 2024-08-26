@@ -217,102 +217,110 @@
       });
     }
 
-    // Add venue buttons to the sidebar sorted by distance
-    function addVenueButtons() {
-      var venueList = document.getElementById('venueList');
-      venueList.innerHTML = ''; // Clear previous buttons
+    <!-- Venue button generation inside the addVenueButtons and filterVenues functions -->
+function addVenueButtons() {
+  var venueList = document.getElementById('venueList');
+  venueList.innerHTML = ''; // Clear previous buttons
 
-      // Calculate distance for each venue and sort by distance
-      var venuesWithDistance = futsalVenues.map(function(venue) {
-        var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
-        return {
-          ...venue,
-          distance: distance
-        };
-      });
+  // Calculate distance for each venue and sort by distance
+  var venuesWithDistance = futsalVenues.map(function(venue) {
+    var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
+    return {
+      ...venue,
+      distance: distance
+    };
+  });
 
-      // Sort venues by distance (ascending order)
-      venuesWithDistance.sort(function(a, b) {
-        return a.distance - b.distance;
-      });
+  // Sort venues by distance (ascending order)
+  venuesWithDistance.sort(function(a, b) {
+    return a.distance - b.distance;
+  });
 
-      // Create buttons for sorted venues
-      venuesWithDistance.forEach(function(venue) {
-        var buttonContainer = document.createElement('div');
-        buttonContainer.style.marginBottom = '10px'; // Space between buttons
+  // Create buttons for sorted venues
+  venuesWithDistance.forEach(function(venue) {
+    var buttonContainer = document.createElement('div');
+    buttonContainer.style.marginBottom = '10px'; // Space between buttons
 
-        var venueButton = document.createElement('button');
-        venueButton.className = 'venue-button';
-        venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
-        venueButton.addEventListener('click', function() {
-          map.setView([venue.lat, venue.lon], 15);
-          L.popup()
-            .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
-            .openOn(map);
-        });
+    var venueButton = document.createElement('button');
+    venueButton.className = 'venue-button';
+    venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
+    venueButton.addEventListener('click', function() {
+      map.setView([venue.lat, venue.lon], 15);
+      L.popup()
+        .setLatLng([venue.lat, venue.lon])
+        .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
+        .openOn(map);
+    });
 
-        var bookButton = document.createElement('a');
-        bookButton.href = 'php/registration.php'; // Redirect to registration page
-        bookButton.className = 'book-now-button'; // Add a class for custom styling
-        bookButton.innerHTML = 'Book Now';
+    // Check if the user is logged in using PHP
+    var isLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
+    var bookingPage = isLoggedIn ? 'php/booking.php' : 'php/registration.php';
 
-        buttonContainer.appendChild(venueButton);
-        buttonContainer.appendChild(bookButton);
+    var bookButton = document.createElement('a');
+    bookButton.href = bookingPage; // Dynamic redirection based on login status
+    bookButton.className = 'book-now-button';
+    bookButton.innerHTML = 'Book Now';
 
-        venueList.appendChild(buttonContainer);
-      });
-    }
+    buttonContainer.appendChild(venueButton);
+    buttonContainer.appendChild(bookButton);
 
-    // Filter venues based on search input and sort by distance
-    function filterVenues() {
-      var searchQuery = document.getElementById('searchBar').value.toLowerCase();
-      var filteredVenues = futsalVenues.filter(function(venue) {
-        return venue.name.toLowerCase().includes(searchQuery);
-      });
+    venueList.appendChild(buttonContainer);
+  });
+}
 
-      // Calculate distance for each venue and sort by distance
-      var venuesWithDistance = filteredVenues.map(function(venue) {
-        var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
-        return {
-          ...venue,
-          distance: distance
-        };
-      });
+function filterVenues() {
+  var searchQuery = document.getElementById('searchBar').value.toLowerCase();
+  var filteredVenues = futsalVenues.filter(function(venue) {
+    return venue.name.toLowerCase().includes(searchQuery);
+  });
 
-      // Sort venues by distance (ascending order)
-      venuesWithDistance.sort(function(a, b) {
-        return a.distance - b.distance;
-      });
+  // Calculate distance for each venue and sort by distance
+  var venuesWithDistance = filteredVenues.map(function(venue) {
+    var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
+    return {
+      ...venue,
+      distance: distance
+    };
+  });
 
-      // Update the venue list based on the filtered and sorted results
-      var venueList = document.getElementById('venueList');
-      venueList.innerHTML = ''; // Clear previous buttons
-      venuesWithDistance.forEach(function(venue) {
-        var buttonContainer = document.createElement('div');
-        buttonContainer.style.marginBottom = '10px'; // Space between buttons
+  // Sort venues by distance (ascending order)
+  venuesWithDistance.sort(function(a, b) {
+    return a.distance - b.distance;
+  });
 
-        var venueButton = document.createElement('button');
-        venueButton.className = 'venue-button';
-        venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
-        venueButton.addEventListener('click', function() {
-          map.setView([venue.lat, venue.lon], 15);
-          L.popup()
-            .setLatLng([venue.lat, venue.lon])
-            .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
-            .openOn(map);
-        });
+  // Update the venue list based on the filtered and sorted results
+  var venueList = document.getElementById('venueList');
+  venueList.innerHTML = ''; // Clear previous buttons
+  venuesWithDistance.forEach(function(venue) {
+    var buttonContainer = document.createElement('div');
+    buttonContainer.style.marginBottom = '10px'; // Space between buttons
 
-        var bookButton = document.createElement('a');
-        bookButton.href = 'php/registration.php'; // Redirect to registration page
-        bookButton.className = 'book-now-button'; // Add a class for custom styling
-        bookButton.innerHTML = 'Book Now';
+    var venueButton = document.createElement('button');
+    venueButton.className = 'venue-button';
+    venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
+    venueButton.addEventListener('click', function() {
+      map.setView([venue.lat, venue.lon], 15);
+      L.popup()
+        .setLatLng([venue.lat, venue.lon])
+        .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
+        .openOn(map);
+    });
 
-        buttonContainer.appendChild(venueButton);
-        buttonContainer.appendChild(bookButton);
+    // Check if the user is logged in using PHP
+    var isLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
+    var bookingPage = isLoggedIn ? 'php/booking.php' : 'php/registration.php';
 
-        venueList.appendChild(buttonContainer);
-      });
-    }
+    var bookButton = document.createElement('a');
+    bookButton.href = bookingPage; // Dynamic redirection based on login status
+    bookButton.className = 'book-now-button';
+    bookButton.innerHTML = 'Book Now';
+
+    buttonContainer.appendChild(venueButton);
+    buttonContainer.appendChild(bookButton);
+
+    venueList.appendChild(buttonContainer);
+  });
+}
 
     // Get user's location
     if (navigator.geolocation) {
