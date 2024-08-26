@@ -4,127 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Futsal Reservation System</title>
-  <link rel="stylesheet" type="text/css" href="css/allstyles.css">
-  <link rel="stylesheet" type="text/css" href="css/navstyles.css">
-  <link rel="stylesheet" type="text/css" href="css/indexstyles.css">
-  <link rel="stylesheet" type="text/css" href="css/footerstyles.css">
+  <link rel="stylesheet" href="css/allstyles.css">
+  <link rel="stylesheet" href="css/navstyles.css">
+  <link rel="stylesheet" href="css/indexstyles.css">
+  <link rel="stylesheet" href="css/footerstyles.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: Arial, sans-serif;
-    }
-
-    /* Sidebar Styles */
-    #sidebar {
-      width: 300px;
-      height: calc(100vh - 120px); /* Adjust the height to fill the viewport minus the space for header */
-      background-color: #f8f9fa;
-      padding: 10px;
-      position: fixed; /* Make the sidebar fixed */
-      top: 120px; /* Adjust this based on your header height */
-      left: 0;
-      overflow-y: auto; /* Enable vertical scrolling */
-      z-index: 1000;
-    }
-
-    /* Map Styles */
     #map {
-      height: calc(100vh - 120px); /* Adjust height to fill the viewport minus the space for header */
-      width: calc(80% - 100px); /* Adjust width to fill the remaining space after sidebar */
-      margin-left: 200px; /* Adjust according to sidebar width */
-      position: relative; /* Ensure the map container is positioned relative to its parent */
+      height: 400px; /* Adjust height as needed */
+      width: 100%; /* Full width of the container */
+      margin-top: 20px; /* Space above the map */
     }
-
-    /* Button Container Styles */
-    .button-container {
-      position: absolute;
-      bottom: 10px; /* Adjust bottom spacing as needed */
-      left: 50%;
-      transform: translateX(-50%); /* Center the container horizontally */
-      text-align: center; /* Center text inside the container */
-    }
-
-    /* Button Styles */
-    #recenterButton {
-      padding: 10px 20px;
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #recenterButton:hover {
-      background-color: #2ecc71;
-    }
-
-    /* Container for Main Content */
-    .container {
-      margin-left: 300px; /* Adjust according to sidebar width */
-      padding: 10px;
-    }
-
-    /* Footer Styles */
-    footer {
-      clear: both; /* Ensure footer appears below other content */
-      text-align: center;
-      padding: 20px;
-      background-color: black;
-    }
-
-    /* Sidebar Search Input */
-    #sidebar input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    /* Sidebar Venue Button */
-    #sidebar .venue-button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-align: left;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    #sidebar .venue-button:hover {
-      background-color: #2ecc71;
-    }
-
-    /* Book Now Button Styles */
-    .book-now-button {
-      display: block;
-      padding: 10px;
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-
-    .book-now-button:hover {
-      background-color: #c0392b;
-    }
-    
   </style>
 </head>
 <body>
@@ -142,26 +32,70 @@
           } else {
             echo '<li class="login"><a href="php/login.php">Login</a></li>';
             echo '<li class="login"><a href="php/registration.php">Register</a></li>';
-          } 
+          }
         ?>
       </ul>
     </nav>
   </header>
-  
-  <!-- Sidebar for venues and search -->
-  <div id="sidebar">
-    <input type="text" id="searchBar" placeholder="Search venues...">
-    <div id="venueList">
-      <!-- Venue buttons will be added here dynamically -->
+    <!-- Welcome Section -->
+    <section class="hero-section">
+    <div class="container01">
+      <div class="hero-content">
+        <h1>Welcome to FutsalTicket</h1>
+        <p class="pheader">Book your futsal field online.</p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- New Map Section -->
+  <!-- Map and Nearby Futsal Venues Section -->
   <section id="map-section">
-    <div class="container">
-      <h2 style="color: green; text-align: center;">Find a Futsal Venue Near You</h2>
-      <div id="map"></div>
+    <!-- Map Container -->
+    <div id="map"></div>
+    
+    <!-- Nearby Futsal Venues List -->
+    <div id="futsal-list-section">
+      <h2>Nearby Futsal Venues</h2>
+      <ul id="futsal-list"></ul>
       <button id="recenterButton" style="margin-top: 10px;">Recenter Map</button>
+    </div>
+  </section>
+
+
+
+  <section class="services-section">
+    <div class="container"> 
+      <div class="service">
+        <div class="service-col">
+          <div class="service-row">
+            <div class="img-container">
+              <img src="img/cafe1.png" alt="Cafe Image" class="img001">
+            </div>
+            <div class="text-container">
+              <h5>Cafe</h5>
+              <p>A small restaurant selling light meals and drinks.</p>
+            </div>
+          </div>
+          <div class="service-row">
+            <div class="img-container">
+              <img src="img/snooker1.png" alt="Snooker Image" class="img001">
+            </div>
+            <div class="text-container">
+              <h5>Snooker</h5>
+              <p>The word snooker was a well-established derogatory term used to describe inexperienced or first-year military personnel.</p>
+            </div>
+          </div>
+          <div class="service-row">
+            <div class="img-container">
+              <img src="img/parkin1.png" alt="Parking Lot Image" class="img001">
+            </div>
+            <div class="text-container">
+              <h5>Parking Lot</h5>
+              <p>An area where cars or other vehicles may be left temporarily; a car park.</p>
+            </div>
+          </div>
+          <!-- Add more service sections as needed -->
+        </div>
+      </div>
     </div>
   </section>
 
@@ -176,15 +110,14 @@
     </div>
   </section>
 
-  <footer>
-    <?php include 'include/footer.html'; ?>
-  </footer>
+  <br/>
+  <?php include 'include/footer.html'; ?>
 
   <!-- Include Leaflet.js -->
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
     // Initialize the map
-    var map = L.map('map').setView([0, 0], 2); // Set initial coordinates and zoom level
+    var map = L.map('map').setView([27.7172, 85.3240], 13); // Kathmandu as default center
 
     // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -211,116 +144,12 @@
     function showAllFutsalVenues() {
       futsalVenues.forEach(function(venue) {
         var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
+        venue.distance = distance; // Store the calculated distance in the venue object
         L.marker([venue.lat, venue.lon]).addTo(map)
           .bindPopup(venue.name + '<br>Distance: ' + distance.toFixed(2) + ' km')
           .openPopup();
       });
     }
-
-    <!-- Venue button generation inside the addVenueButtons and filterVenues functions -->
-function addVenueButtons() {
-  var venueList = document.getElementById('venueList');
-  venueList.innerHTML = ''; // Clear previous buttons
-
-  // Calculate distance for each venue and sort by distance
-  var venuesWithDistance = futsalVenues.map(function(venue) {
-    var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
-    return {
-      ...venue,
-      distance: distance
-    };
-  });
-
-  // Sort venues by distance (ascending order)
-  venuesWithDistance.sort(function(a, b) {
-    return a.distance - b.distance;
-  });
-
-  // Create buttons for sorted venues
-  venuesWithDistance.forEach(function(venue) {
-    var buttonContainer = document.createElement('div');
-    buttonContainer.style.marginBottom = '10px'; // Space between buttons
-
-    var venueButton = document.createElement('button');
-    venueButton.className = 'venue-button';
-    venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
-    venueButton.addEventListener('click', function() {
-      map.setView([venue.lat, venue.lon], 15);
-      L.popup()
-        .setLatLng([venue.lat, venue.lon])
-        .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
-        .openOn(map);
-    });
-
-    // Check if the user is logged in using PHP
-    var isLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
-    var bookingPage = isLoggedIn ? 'php/booking.php' : 'php/registration.php';
-
-    var bookButton = document.createElement('a');
-    bookButton.href = bookingPage; // Dynamic redirection based on login status
-    bookButton.className = 'book-now-button';
-    bookButton.innerHTML = 'Book Now';
-
-    buttonContainer.appendChild(venueButton);
-    buttonContainer.appendChild(bookButton);
-
-    venueList.appendChild(buttonContainer);
-  });
-}
-
-function filterVenues() {
-  var searchQuery = document.getElementById('searchBar').value.toLowerCase();
-  var filteredVenues = futsalVenues.filter(function(venue) {
-    return venue.name.toLowerCase().includes(searchQuery);
-  });
-
-  // Calculate distance for each venue and sort by distance
-  var venuesWithDistance = filteredVenues.map(function(venue) {
-    var distance = calculateDistance(userLat, userLon, venue.lat, venue.lon);
-    return {
-      ...venue,
-      distance: distance
-    };
-  });
-
-  // Sort venues by distance (ascending order)
-  venuesWithDistance.sort(function(a, b) {
-    return a.distance - b.distance;
-  });
-
-  // Update the venue list based on the filtered and sorted results
-  var venueList = document.getElementById('venueList');
-  venueList.innerHTML = ''; // Clear previous buttons
-  venuesWithDistance.forEach(function(venue) {
-    var buttonContainer = document.createElement('div');
-    buttonContainer.style.marginBottom = '10px'; // Space between buttons
-
-    var venueButton = document.createElement('button');
-    venueButton.className = 'venue-button';
-    venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
-    venueButton.addEventListener('click', function() {
-      map.setView([venue.lat, venue.lon], 15);
-      L.popup()
-        .setLatLng([venue.lat, venue.lon])
-        .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
-        .openOn(map);
-    });
-
-    // Check if the user is logged in using PHP
-    var isLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
-    var bookingPage = isLoggedIn ? 'php/booking.php' : 'php/registration.php';
-
-    var bookButton = document.createElement('a');
-    bookButton.href = bookingPage; // Dynamic redirection based on login status
-    bookButton.className = 'book-now-button';
-    bookButton.innerHTML = 'Book Now';
-
-    buttonContainer.appendChild(venueButton);
-    buttonContainer.appendChild(bookButton);
-
-    venueList.appendChild(buttonContainer);
-  });
-}
 
     // Get user's location
     if (navigator.geolocation) {
@@ -328,20 +157,18 @@ function filterVenues() {
         userLat = position.coords.latitude;
         userLon = position.coords.longitude;
 
-        // Recenter map to user's location and add a marker
-        map.setView([userLat, userLon], 12);
-        userMarker = L.marker([userLat, userLon], { icon: L.icon({ iconUrl: 'https://maps.gstatic.com/mapfiles/ms2/micons/man.png' }) })
-          .addTo(map)
-          .bindPopup('You are here')
+        map.setView([userLat, userLon], 13); // Set map to user's location
+        userMarker = L.marker([userLat, userLon], {
+          icon: L.divIcon({
+            className: 'user-icon',
+            html: '<div style="background-color:red; width: 10px; height: 10px; border-radius: 50%;"></div>'
+          })
+        }).addTo(map)
+          .bindPopup('You are here!')
           .openPopup();
 
         // Show all venues on the map
         showAllFutsalVenues();
-        // Add venue buttons to the sidebar
-        addVenueButtons();
-      }, function(error) {
-        console.error('Geolocation error: ', error);
-        alert('Unable to retrieve your location.');
       });
     } else {
       alert('Geolocation is not supported by this browser.');
@@ -366,8 +193,76 @@ function filterVenues() {
       { name: "Samakhusi Futsal", lat: 27.734598651054025, lon: 85.32048339314343 },
       { name: "Kumari Futsal", lat: 27.7139447636494, lon: 85.30803159421912 },
       { name: "Manang Futsal", lat: 27.715465815601913, lon: 85.2827675079748 },
-      { name: "Nepa Futsal", lat: 27.715465815601913, lon: 85.29664974173643 },
+      // Add more venues here
     ];
+
+    // Function to display the list of futsal venues
+    function displayFutsalList() {
+      var listContainer = document.getElementById('futsal-list');
+      listContainer.innerHTML = ''; // Clear any existing content
+
+      futsalVenues.forEach(function(venue) {
+        var listItem = document.createElement('li');
+        listItem.innerHTML = `${venue.name} - ${venue.distance.toFixed(2)} km`;
+        listContainer.appendChild(listItem);
+      });
+    }
   </script>
 </body>
 </html>
+=======
+  
+  <!-- Add map section -->
+<section class="map-section">
+  <div class="map-container">
+    <h2 class="near">Nearby Futsal Fields</h2>
+    <div id="map" style="width: 100%; height: 400px;"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the map
+        var map = L.map('map').setView([0, 0], 15); // Default center
+
+        // Set the map tiles using OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Get user's current l ocation
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // Set the map center to the user's location
+            map.setView([lat, lng], 15);
+
+            // Add a marker for the user's location
+            var userMarker = L.marker([lat, lng]).addTo(map)
+              .bindPopup("You are here").openPopup();
+
+            // Fetch and display nearby futsal fields (example function call)
+            fetchFutsalLocations(lat, lng, map);
+          });
+        } else {
+          alert("Geolocation is not supported by this browser.");
+        }
+      });
+
+      // Function to fetch and display nearby futsal fields
+      function fetchFutsalLocations(lat, lng, map) {
+        fetch('get_futsal_locations.php?lat=' + lat + '&lng=' + lng)
+          .then(response => response.json())
+          .then(data => {
+            data.forEach(location => {
+              var marker = L.marker([location.lat, location.lng]).addTo(map);
+              marker.bindPopup(`<b>${location.name}</b><br>${location.address}`);
+            });
+          });
+      }
+    </script>
+
+    <!-- Include Leaflet.js in the HTML -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  </div>
+</section>
