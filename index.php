@@ -8,142 +8,168 @@
   <link rel="stylesheet" type="text/css" href="css/navstyles.css">
   <link rel="stylesheet" type="text/css" href="css/indexstyles.css">
   <link rel="stylesheet" type="text/css" href="css/footerstyles.css">
+  
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
   <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      height: 100%;
-      font-family: Arial, sans-serif;
-    }
+  /* Basic Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif; /* A more modern and sleek font */
+  }
 
-    /* Sidebar Styles */
-    #sidebar {
-      width: 300px;
-      height: calc(100vh - 120px); /* Adjust the height to fill the viewport minus the space for header */
-      background-color: #f8f9fa;
-      padding: 10px;
-      position: fixed; /* Make the sidebar fixed */
-      top: 120px; /* Adjust this based on your header height */
-      left: 0;
-      overflow-y: auto; /* Enable vertical scrolling */
-      z-index: 1000;
-    }
+  html, body {
+    height: 100%;
+    background-color: #f4f4f9; /* Softer background for better contrast */
+    color: #333;
+    line-height: 1.6;
+  }
 
-    /* Map Styles */
-    #map {
-      height: calc(100vh - 120px); /* Adjust height to fill the viewport minus the space for header */
-      width: calc(80% - 100px); /* Adjust width to fill the remaining space after sidebar */
-      margin-left: 200px; /* Adjust according to sidebar width */
-      position: relative; /* Ensure the map container is positioned relative to its parent */
-    }
+  /* Sidebar Styles */
+  #sidebar {
+    width: 400px;
+    height: calc(100vh - 120px);
+    background-color: #ffffff; /* Clean white background */
+    border-right: 2px solid #e0e0e0;
+    padding: 30px;
+    position: fixed;
+    top: 92px;
+    left: 0;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  }
 
-    /* Button Container Styles */
-    .button-container {
-      position: absolute;
-      bottom: 10px; /* Adjust bottom spacing as needed */
-      left: 50%;
-      transform: translateX(-50%); /* Center the container horizontally */
-      text-align: center; /* Center text inside the container */
-    }
+  /* Map Styles */
+  #map {
+    height: calc(100vh - 120px);
+    width: calc(80% - 100px);
+    margin-left: 150px; /* Adjusted for sidebar width */
+    position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  }
 
-    /* Button Styles */
-    #recenterButton {
-      padding: 10px 20px;
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+  /* Button Container */
+  .button-container {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
 
-    #recenterButton:hover {
-      background-color: #2ecc71;
-    }
+  /* Button Styles */
+  #recenterButton {
+    padding: 12px 25px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 450px;
+  
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
 
-    /* Container for Main Content */
-    .container {
-      margin-left: 300px; /* Adjust according to sidebar width */
-      padding: 10px;
-    }
+  #recenterButton:hover {
+    background-color: #2ecc71;
+    transform: translateY(-3px); /* Slight hover lift */
 
-    /* Footer Styles */
-    footer {
-      clear: both; /* Ensure footer appears below other content */
-      text-align: center;
-      padding: 20px;
-      background-color: black;
-    }
+  }
 
-    /* Sidebar Search Input */
-    #sidebar input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
+  /* Container for Main Content */
+  .container {
+    margin-left: 320px; /* Adjusted for sidebar width */
+    padding: 20px;
+  }
 
-    /* Sidebar Venue Button */
-    #sidebar .venue-button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-align: left;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+  /* Footer Styles */
+  footer {
+    clear: both;
+    text-align: center;
+    padding: 20px;
+    background-color: #1b1b1f; /* Darker background */
+    color: white;
+  }
 
-    #sidebar .venue-button:hover {
-      background-color: #2ecc71;
-    }
+  /* Sidebar Search Input */
+  #sidebar input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+  }
 
-    /* Book Now Button Styles */
-    .book-now-button {
-      display: block;
-      padding: 10px;
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
+  /* Sidebar Venue Button */
+  #sidebar .venue-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: left;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
 
-    .book-now-button:hover {
-      background-color: #c0392b;
-    }
-    
-  </style>
+  #sidebar .venue-button:hover {
+    background-color: #2ecc71;
+    transform: translateY(-3px); /* Slight hover lift */
+  }
+
+  /* Book Now Button Styles */
+  .book-now-button {
+    display: block;
+    padding: 12px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .book-now-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-3px); /* Slight hover lift */
+  }
+</style>
+
 </head>
 <body>
   <header>
     <nav>
       <ul>
-        <h2 style="color: green; text-align: center;">Welcome to the Futsal</h2>
-        <li><a href="index.php">Home</a></li>
-        <li><a href="contact.php">Contact Us</a></li>
-        <li><a href="php/booking.php">Booking</a></li>
+        <h2 style="color: #00ff00;  text-align:left; margin-right:50px;">Welcome to the Futsal Booking</h2>
+        <h2 style=""><li><a href="index.php">Home</a></li></h2>
+        <h2 style=""><li><a href="contact.php">Contact Us</a></li></h2>
+        <h2 style=""><li><a href="php/booking.php">Booking</a></li></h2>
         <?php
-          session_start();
-          if (isset($_SESSION['user'])) {
-            echo '<li class="login"><a href="php/user_profile.php">User Profile</a></li>';
-          } else {
-            echo '<li class="login"><a href="php/login.php">Login</a></li>';
-            echo '<li class="login"><a href="php/registration.php">Register</a></li>';
-          } 
-        ?>
+session_start();
+
+// Check if the user is logged in
+if (isset($_SESSION['user'])) {
+    echo '<li class="login"><a href="php/user_profile.php">User Profile</a></li>';
+} else {
+    echo '<li class="login"><a href="php/login.php">Login</a></li>';
+    echo '<li class="login"><a href="php/registration.php">Register</a></li>';
+    
+    
+}
+
+
+?>
+
       </ul>
     </nav>
   </header>
@@ -160,22 +186,13 @@
   <!-- New Map Section -->
   <section id="map-section">
     <div class="container">
-      <h2 style="color: green; text-align: center;">Find a Futsal Venue Near You</h2>
+      <h2 style="color:green;  text-align: center;">Find a Futsal Venue Near You</h2>
       <div id="map"></div>
       <button id="recenterButton" style="margin-top: 10px;">Recenter Map</button>
     </div>
   </section>
 
-  <section>
-    <div class="booking-section">
-      <div class="booking-context">
-        <h2>Make your reservation now</h2>
-      </div>
-      <div class="booking-btn">
-        <a href="php/booking.php" class="book-now-btn">Book Now</a>
-      </div>
-    </div>
-  </section>
+  
 
   <footer>
     <?php include 'include/footer.html'; ?>
@@ -219,7 +236,9 @@
     }
 
     <!-- Venue button generation inside the addVenueButtons and filterVenues functions -->
+// Add venue buttons to the sidebar
 function addVenueButtons() {
+
   var venueList = document.getElementById('venueList');
   venueList.innerHTML = ''; // Clear previous buttons
 
@@ -235,6 +254,8 @@ function addVenueButtons() {
   // Sort venues by distance (ascending order)
   venuesWithDistance.sort(function(a, b) {
     return a.distance - b.distance;
+    var bookingPage = isLoggedIn ? `php/booking.php?venue=${encodeURIComponent(venue.name)}` : 'php/registration.php';
+
   });
 
   // Create buttons for sorted venues
@@ -255,10 +276,10 @@ function addVenueButtons() {
 
     // Check if the user is logged in using PHP
     var isLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
-    var bookingPage = isLoggedIn ? 'php/booking.php' : 'php/registration.php';
+    var bookingPage = isLoggedIn ? `php/booking.php?venue=${encodeURIComponent(venue.name)}` : 'php/registration.php';
 
     var bookButton = document.createElement('a');
-    bookButton.href = bookingPage; // Dynamic redirection based on login status
+    bookButton.href = bookingPage; // Dynamic redirection based on login status and venue name
     bookButton.className = 'book-now-button';
     bookButton.innerHTML = 'Book Now';
 
@@ -268,6 +289,7 @@ function addVenueButtons() {
     venueList.appendChild(buttonContainer);
   });
 }
+
 
 function filterVenues() {
   var searchQuery = document.getElementById('searchBar').value.toLowerCase();
@@ -300,16 +322,16 @@ function filterVenues() {
     venueButton.className = 'venue-button';
     venueButton.innerHTML = `${venue.name}<br>Distance: ${venue.distance.toFixed(2)} km`;
     venueButton.addEventListener('click', function() {
-      map.setView([venue.lat, venue.lon], 15);
-      L.popup()
-        .setLatLng([venue.lat, venue.lon])
-        .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
-        .openOn(map);
-    });
+     map.setView([venue.lat, venue.lon], 15);
+    L.popup()
+    .setLatLng([venue.lat, venue.lon])
+    .setContent(`<b>${venue.name}</b><br>Distance: ${venue.distance.toFixed(2)} km`)
+    .openOn(map);
+});
 
     // Check if the user is logged in using PHP
     var isLoggedIn = <?php echo isset($_SESSION['user']) ? 'true' : 'false'; ?>;
-    var bookingPage = isLoggedIn ? 'php/booking.php' : 'php/registration.php';
+    var bookingPage = isLoggedIn ? `php/booking.php?venue=${encodeURIComponent(venue.name)}` : 'php/registration.php';
 
     var bookButton = document.createElement('a');
     bookButton.href = bookingPage; // Dynamic redirection based on login status

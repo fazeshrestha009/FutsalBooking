@@ -5,12 +5,22 @@ include '../include/connection.php';
 // Retrieve the user ID from the URL parameter
 $userId = $_GET['id'];
 
-// Delete the user account from the database
-$query = "DELETE FROM users WHERE id = $userId";
-if (mysqli_query($conn, $query)) {
-  echo 'User account deleted successfully.';
+if ($userId) {
+    // Prepare the delete query to prevent SQL injection
+    $stmt = $conn->prepare("DELETE FROM users WHERE id = ?");
+    $stmt->bind_param("i", $userId);
+    
+    // Execute the query
+    if ($stmt->execute()) {
+        echo 'User account deleted successfully.';
+    } else {
+        echo 'Error deleting user account: ' . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
 } else {
-  echo 'Error deleting user account: ' . mysqli_error($conn);
+    echo "Invalid user ID.";
 }
 
 // Close the database connection
